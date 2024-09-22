@@ -1,0 +1,459 @@
+# reusable_cards.yaml
+
+navigation_and_swipe_card: &navigation_and_swipe_card
+  square: false
+  columns: 1
+  type: grid
+  cards:
+    - square: false
+      columns: 1
+      type: grid
+      cards:
+        - type: custom:button-card
+          label: Navigation
+          show_label: true
+          styles:
+            card:
+              - height: 30px
+                background-color: transparent
+                font-weight: bold
+                font-size: 30px
+                border: none
+          color: auto-no-temperature
+        - type: custom:swipe-card
+          card_width: 10px
+          parameters:
+            autoHeight: true
+            centeredSlides: true
+            effect: coverflow
+            preventClicksPropagation: true
+            pagination:
+              type: bullets
+              hideOnClick: false
+              clickable: false
+              dynamicBullets: true
+          square: false
+          cards:
+            - type: grid
+              columns: 3
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: light.bedroom_ceiling_fan
+                  primary: Ameila's
+                  secondary: Bedroom
+                  icon: mdi:cradle
+                  icon_color: |
+                    {% if is_state('light.bedroom_ceiling_fan', 'on') -%}
+                      orange
+                    {%- else -%}
+                    {%- endif %}
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: ducky 1s ease-out infinite;' if is_state('light.bedroom_ceiling_fan', 'on') else '' }}
+                          transform-origin: 50% 75%;
+                        }
+                        @keyframes ducky {
+                          0%, 100% { transform: rotate(-15deg); }
+                          50% { transform: rotate(15deg); }
+                        }
+                  tap_action:
+                    action: navigate
+                    navigation_path: /dashboard-test/bedroom
+                - type: custom:mushroom-template-card
+                  entity: light.master_bedroom_ceiling_fan
+                  name: Master
+                  primary: Master
+                  secondary: Bedroom
+                  icon_color: |
+                    {% if is_state('light.master_bedroom_ceiling_fan', 'on') -%}
+                      orange
+                    {%- else -%}
+                    {%- endif %}
+                  icon: mdi:bed-king
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: charge 2s linear infinite;' if is_state('light.master_bedroom_ceiling_fan', 'on') else '' }}
+                        }
+                        @keyframes charge {
+                          0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% { transform: translate(0, 0); }
+                          5% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 5 }}px); }
+                          20% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 2 }}px); }
+                          25% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 5 }}px); }
+                          35% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 2 }}px); }
+                          45% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 2}}px); }
+                          55% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 5 }}px); }
+                          65% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 2 }}px); }
+                          75% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 5 }}px); }
+                          85% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 2 }}px); }
+                          95% { transform: translate({{ range(-20, 6) | random / 10 }}px, {{ range(-20, 20) | random / 5 }}px); }
+                        }
+                  tap_action:
+                    action: navigate
+                    navigation_path: /dashboard-test/master-bedroom
+                - type: custom:mushroom-template-card
+                  entity: light.living_room_fan
+                  primary: Living
+                  secondary: Room
+                  icon_color: |
+                    {% if is_state('light.living_room_fan', 'on') -%}
+                    orange
+                    {%- else -%}
+                    {%- endif %}
+                  icon: mdi:sofa
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: music 1s linear infinite;' if is_state('light.living_room_fan', 'on') else '' }}
+                          }
+                          @keyframes music {
+                            0%, 100% { transform: translateY(0px) scaleX(1); }
+                            20% { transform: translateY(2px) scaleX(0.9); }
+                            40% { transform: rotateY(10deg) rotateZ(-10deg); }
+                            60% { transform: translateY(-4px) scaleX(1.1); }
+                            80% { transform: rotateY(-10deg) rotateZ(10deg); }
+                          }
+                  tap_action:
+                    action: navigate
+                    navigation_path: /dashboard-test/living-room
+                - type: custom:mushroom-template-card
+                  icon: |
+                    {% if is_state('cover.garage_door', 'opened') -%}
+                    mdi:garage
+                    {%- else -%}
+                    mdi:garage-lock
+                    {%- endif %}
+                  entity: cover.garage_door
+                  primary: Garage
+                  icon_color: |
+                    {% if is_state('cover.garage_door', 'open') -%}
+                    orange
+                    {%- else -%}
+                    green
+                    {%- endif %}
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: door 1s steps(1) infinite alternate;' if is_state('cover.garage_door', 'open') else '' }}
+                          }
+                          @keyframes door {
+                            0% { clip-path: inset(0 0 0 0); }
+                            25%  { clip-path: polygon(0 0, 100% 0, 100% 100%, 68% 100%, 69% 73%, 32% 73%, 31% 100%, 0 100%); }
+                            50%  { clip-path: polygon(0 0, 100% 0, 100% 100%, 68% 100%, 69% 61%, 32% 61%, 31% 100%, 0 100%); }
+                            75% { clip-path: polygon(0 0, 100% 0, 100% 100%, 68% 100%, 69% 48%, 32% 48%, 31% 100%, 0 100%); }
+                          }
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.more_info
+                      data:
+                        entity: cover.garage_door
+                - type: custom:mushroom-template-card
+                  tap_action:
+                    action: navigate
+                    navigation_path: /dashboard-test/kitchen
+                  entity: light.kitchen_light
+                  primary: Kitchen
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: steam 500ms ease-in-out infinite, charge 1s linear infinite;' if is_state('light.kitchen_lights_combined', 'on') else '' }}
+                          }
+                          @keyframes steam {
+                            0%, 100% { clip-path: inset(0 0 0 0); }
+                            50% { clip-path: inset(39% 0 0 0); }
+                          } 
+                          @keyframes charge {
+                            0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% { transform: translate(0, 0); }
+                            5% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            15% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            25% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            35% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            45% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            55% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            65% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            75% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            85% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            95% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                          }
+                  icon: mdi:pot-steam
+                  icon_color: >
+                    {% if is_state('light.kitchen_lights_combined',
+                    'on') -%}
+
+                    orange
+
+                    {%- else -%}
+
+                    {%- endif %}
+                - type: custom:mushroom-template-card
+                  entity: light.office_light
+                  primary: Office
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: steam 2s ease-in-out infinite;' if is_state('light.office_light', 'on') else '' }}
+                          }
+                          @keyframes steam {
+                            0%, 100% { clip-path: inset(0 0 0 0); }
+                            50% { clip-path: inset(0 30% 0 0); }
+                          } 
+                  icon: mdi:desk-lamp-on
+                  icon_color: |
+                    {% if is_state('light.office_light', 'on') -%}
+                    orange
+                    {%- else -%}
+                    {%- endif %}
+                  tap_action:
+                    action: navigate
+                    navigation_path: /dashboard-test/office
+              square: false
+            - type: grid
+              square: false
+              cards:
+                - show_name: true
+                  type: custom:mushroom-light-card
+                  secondary_info: none
+                  show_brightness_control: true
+                  collapsible_controls: true
+                  use_light_color: false
+                  entity: light.bathroom_light
+                  name: Bathroom
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: steam 2s infinite, charge 1s linear infinite;' if is_state('light.bathroom_light', 'on') else '' }}
+                          }
+                          @keyframes steam {
+                            0%, 100% { clip-path: inset(0 0 0 0); }
+                            10% { clip-path: inset(80% 0 0 0); }
+                          } 
+                          @keyframes charge {
+                            0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% { transform: translate(0, 0); }
+                            5% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            15% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            25% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            35% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            45% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            55% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            65% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            75% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            85% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                            95% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                          }
+                  layout: horizontal
+                  square: false
+                - show_name: true
+                  secondary_info: none
+                  type: custom:mushroom-light-card
+                  show_brightness_control: true
+                  collapsible_controls: true
+                  entity: light.dining_room_light
+                  icon: mdi:silverware
+                  layout: horizontal
+                  name: Dining
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: bounce 0.9s cubic-bezier(0.30, 2.40, 0.85, 2.50) infinite;' if is_state('light.dining_room_light', 'on') else '' }}
+                          transform-origin: 50% 100%;
+                        }
+                        @keyframes bounce { 
+                          0%, 100% { transform: translateY(0px) scaleY(0.9); }
+                          80% { transform: translateY(-3px); }
+                        }       
+                - show_name: true
+                  show_icon: true
+                  type: custom:mushroom-light-card
+                  secondary_info: none
+                  entity: light.entryway
+                  collapsible_controls: true
+                  name: Entryway
+                  layout: horizontal
+                  show_tempurature_control: true
+                  use_light_color: true
+                  show_brightness_control: true
+                  icon: mdi:door
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: open 3s ease-in-out infinite;' if is_state('light.entryway', 'on') else '' }}
+                          transform-origin: 30%;
+                          }
+                          @keyframes open {
+                            0%, 66% { transform: rotateY(0deg); }
+                            33% { transform: rotateY(-120deg); }
+                          }
+                          .shape {
+                            perspective: 45px;
+                          }
+                - show_name: true
+                  show_icon: true
+                  type: custom:mushroom-light-card
+                  secondary_info: none
+                  layout: horizontal
+                  tap_action:
+                    action: navigate
+                    navigation_path: /dashboard-test/front-yard
+                  entity: light.front_porch_ceiling_fan
+                  name: Front Yard
+                  icon: mdi:grass
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: steam 2s infinite; ' if is_state('light.front_porch_ceiling_fan', 'on') else '' }}
+                          }
+                          @keyframes steam {
+                            0%, 100% { clip-path: inset(0 0 0 0); }
+                            10% { clip-path: inset(90% 0 0 0); }
+                          }
+                - show_name: true
+                  show_icon: true
+                  type: custom:mushroom-light-card
+                  secondary_info: none
+                  collapsible_controls: true
+                  use_light_color: false
+                  layout: horizontal
+                  entity: light.backyard_frosted
+                  icon: mdi:string-lights
+                  tap_action:
+                    action: navigate
+                    navigation_path: /dashboard-test/backyard
+                  name: Backyard
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: clip 1s infinite reverse; ' if is_state('light.backyard_frosted', 'on') else '' }}
+                          }
+                          @keyframes clip {
+                            0% { clip-path: inset(0 0 59% 0); color: rgb(var(--rgb-red)); }
+                            1% { clip-path: inset(0 0 0 0); color: rgb(var(--rgb-red)); }
+                            25% { clip-path: inset(0 0 59% 0); color: rgb(var(--rgb-blue)); }
+                            26% { clip-path: inset(0 0 0 0); color: rgb(var(--rgb-blue)); }
+                            50% { clip-path: inset(0 0 59% 0); color: rgb(var(--rgb-orange)); }
+                            51% { clip-path: inset(0 0 0 0); color: rgb(var(--rgb-orange)); }
+                            79% { clip-path: inset(0 0 59% 0); color: rgb(var(--rgb-green)); }
+                            80% { clip-path: inset(0 0 0 0); color: rgb(var(--rgb-green)); }
+                            99% { clip-path: inset(0 0 59% 0); color: rgb(var(--rgb-green)); }
+                          }
+                - show_name: true
+                  show_icon: true
+                  type: custom:mushroom-template-card
+                  secondary: Room
+                  layout: horizontal
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.more_info
+                      data:
+                        entity: light.laundry_room_light
+                  entity: light.laundry_room_light
+                  icon: mdi:tumble-dryer
+                  icon_color: >
+                    {% if is_state('light.laundry_room_light', 'on')
+                    -%}
+
+                    orange
+
+                    {%- else -%}
+
+                    {%- endif %}
+                  primary: Laundry
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: shake 400ms ease-in-out infinite, drum 2s ease infinite; ' if is_state('light.laundry_room_light', 'on') else '' }}
+                          transform-origin: 50% 110%;
+                        }
+                        @keyframes shake {
+                          0%, 100% { transform: translate(0, 0) rotate(0); }
+                          20%  { transform: translate(0.4px, -0.4px) rotate(-4deg); }
+                          40%  { transform: translate(-0.4px, 0.4px) rotate(4deg); }
+                          60%  { transform: translate(0.4px, 0.4px) rotate(-4deg); }
+                          80%  { transform: translate(-0.4px, -0.4px) rotate(4deg); }
+                        }
+                        @keyframes drum {
+                          50%  { clip-path: polygon(0 0, 0 100%, 35% 100%, 34% 68%, 60% 41%, 71% 56%, 65% 74%, 47% 79%, 32% 69%, 35% 100%, 100% 100%, 100% 0); }
+                        }
+            - type: grid
+              square: false
+              cards:
+                - show_name: true
+                  show_icon: true
+                  type: custom:mushroom-light-card
+                  secondary_info: none
+                  layout: horizontal
+                  entity: light.pantry_light
+                  show_brightness_control: true
+                  collapsible_controls: true
+                  use_light_color: false
+                  icon: mdi:blender-outline
+                  name: Pantry
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: shake 400ms ease-in-out infinite; ' if is_state('light.pantry_light', 'on') else '' }}
+                          transform-origin: 50% 110%;
+                        }
+                        @keyframes shake {
+                          0%, 100% { transform: translate(0, 0) rotate(0); }
+                          20%  { transform: translate(0.4px, -0.4px) rotate(-4deg); }
+                          40%  { transform: translate(-0.4px, 0.4px) rotate(4deg); }
+                          60%  { transform: translate(0.4px, 0.4px) rotate(-4deg); }
+                          80%  { transform: translate(-0.4px, -0.4px) rotate(4deg); }
+                        }
+                - type: custom:mushroom-template-card
+                  secondary: Room
+                  layout: horizontal
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.more_info
+                      data:
+                        entity: light.screen_room_light
+                  entity: light.screen_room_light
+                  primary: Screen
+                  icon: mdi:circular-saw
+                  icon_color: >
+                    {% if is_state('light.screen_room_light', 'on')
+                    -%}
+
+                    orange
+
+                    {%- else -%}
+
+                    {%- endif %}
+                  card_mod:
+                    style:
+                      mushroom-shape-icon: |
+                        ha-state-icon {
+                          {{ 'animation: shake 400ms ease-in-out infinite alternate; ' if is_state('light.screen_room_light', 'on') else '' }}
+                        }
+                        @keyframes shake {
+                          0%, 100% { transform: translate(0, 0) rotate(0); }
+                          20%  { transform: translate(0.4px, -0.4px) rotate(-4deg); }
+                          40%  { transform: translate(-0.4px, 0.4px) rotate(4deg); }
+                          60%  { transform: translate(0.4px, 0.4px) rotate(-4deg); }
+                          80%  { transform: translate(-0.4px, -0.4px) rotate(4deg); }
+                        }
+  layout_options:
+    grid_columns: 12
+    grid_rows: auto
+  visibility:
+    - condition: screen
+      media_query: '(min-width: 0px) and (max-width: 767px)'
+column_span: 3
